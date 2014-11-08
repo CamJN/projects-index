@@ -1,8 +1,10 @@
 <?php
+defined( 'runtime' ) or die;
+
 function distance_of_time_in_words($from_time, $to_time = null, $include_seconds = false)
 {
   $to_time = $to_time? $to_time: time();
-  
+
   $distance_in_minutes = floor(abs($to_time - $from_time) / 60);
   $distance_in_seconds = floor(abs($to_time - $from_time));
 

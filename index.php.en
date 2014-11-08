@@ -1,4 +1,6 @@
 <?php
+define('runtime', 1);
+
 require('dota.php');
 $file= "/etc/hosts";
 if (file_exists($file)) {
