@@ -3,8 +3,7 @@ projects-index
 This page provides a pretty overview of the projects on my box.
 
 ###requirements:
-* projects all have domains of the form `https?://.*\.dev` in `/etc/hosts`
-* projects have a png at `https?://(.*\.dev)/\1\.png`
-
-###todo:
-* check dynamically if production websites exist
+* project domains all listed on one line in a file specified in config (default: `/etc/hosts`)
+* project domains all have the same tld (default: `.dev`)
+* projects have a png at `https?://([^/]+)/\1\.png`
+* this page was forked on github, or no github contact provided, as the link to the project on github assumes a fork
