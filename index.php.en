@@ -2,26 +2,27 @@
 define('runtime', 1);
 
 require('dota.php');
-$file= "/etc/hosts";
-if (file_exists($file)) {
-  $domains = explode(' ',array_pop(array_filter(file($file),function($e){ return strpos($e,'.dev') !== FALSE; })));
+require('config.php');
+
+if (file_exists($hosts_file)) {
+  $domains = explode(' ',array_pop(array_filter(file($hosts_file),function($e)use($dev_tld){ return strpos($e,$dev_tld) !== FALSE; })));
   array_walk($domains,function(&$d){$d = htmlspecialchars(trim($d));});
-  $domains = array_filter($domains,function($e){ return strpos($e,'.dev') !== FALSE; });
+  $domains = array_filter($domains,function($e)use($dev_tld){ return strpos($e,$dev_tld) !== FALSE; });
 }else{
   $domains = [];
 }
 function title($d){
   return explode('.',$d)[0];
 }
-function elapsed($d){
-  return distance_of_time_in_words(filemtime('/Users/camdennarzt/Sites/'.title($d)."/."), null, true).' ago';
+function elapsed($d,$sites_dir){
+  return distance_of_time_in_words(filemtime($sites_dir.title($d)."/."), null, true).' ago';
 }
 function url_exists($url) {
   return false;//todo make this not suck
   foreach(['https','http'] as $protocol){
     foreach(['www.',null] as $subdomain){
       foreach(['.com','.ca','.me'] as $tld){
-        $urlH = str_replace('.dev',$tld,$url);
+        $urlH = str_replace($dev_tld,$tld,$url);
         if(checkdnsrr($urlH)){
           echo $urlH;
           $urlF = $protocol.'://'.$subdomain.$urlH;
@@ -60,7 +61,7 @@ function url_exists($url) {
 
         <!-- sidebar -->
         <div class="column col-sm-3" id="sidebar">
-          <a class="logo" href="#">CJN</a>
+          <a class="logo" href="#"><?php echo $title; ?></a>
           <ul class="nav">
             <?php foreach($domains as $domain): ?>
               <li>
@@ -70,7 +71,7 @@ function url_exists($url) {
           </ul>
           <ul class="nav hidden-xs" id="sidebar-footer">
             <li>
-              Made with <i class="glyphicon glyphicon-heart-empty"></i> by Camden Narzt
+              Made with <i class="glyphicon glyphicon-heart-empty"></i> by <?php echo $name; ?>
             </li>
           </ul>
         </div>
@@ -94,7 +95,7 @@ function url_exists($url) {
                   <div class="col-sm-10">
                     <h3><?php echo title($domain); ?></h3>
                     <h4><span class="label label-default"><?php echo $domain; ?></span></h4><h4>
-                      <small class="text-muted"><?php echo elapsed($domain); ?> • <a href="//<?php echo $domain; ?>" class="text-muted">Go</a></small>
+                      <small class="text-muted"><?php echo elapsed($domain,$sites_dir); ?> • <a href="//<?php echo $domain; ?>" class="text-muted">Go</a></small>
                     </h4>
                   </div>
                   <div class="col-sm-2">
@@ -114,28 +115,12 @@ function url_exists($url) {
               </div>
 
               <div class="row">
-                <div class="col-sm-4 text-center">
-                  <h4>Metabolistics Inc.</h4>
-                  <a href="https://www.metabolistics.com"><img src="https://metabolistics.dev/metabolistics.dev.png" class="img-respsonsive img-circle"></a>
-                </div>
-                <div class="col-sm-4 text-center">
-                  <h4>King Of Strain</h4>
-                  <a href="http://kingofstrain.com"><img src="http://kingofstrain.dev/kingofstrain.dev.png" class="img-respsonsive img-circle"></a>
-                </div>
-                <div class="col-sm-4 text-center">
-                  <h4>MoteScan for WiTAP™</h4>
-                  <a href="http://mote.scanimetrics.com"><img src="http://mote.scanimetrics.dev/mote.scanimetrics.dev.png" class="img-respsonsive img-circle"></a>
-                </div>
-                <?php
-                foreach($domains as $domain):
-                  if(false !== $url = url_exists($domain)): ?>
+                <?php foreach($prod_domains as $domain): ?>
                   <div class="col-sm-4 text-center">
-                    <h4><?php echo title($domain); ?></h4>
-                    <a href="<?php echo $url; ?>"><img src="<?php echo $url; ?>/favicon.ico" class="img-respsonsive img-circle"></a>
+                    <h4><?php echo $domain['title']; ?></h4>
+                    <a href="<?php echo $domain['link']; ?>"><img src="<?php echo $domain['img']; ?>" class="img-respsonsive img-circle"></a>
                   </div>
-                <?php endif;
-              endforeach;
-              ?>
+                <?php endforeach; ?>
             </div>
 
 
@@ -147,7 +132,12 @@ function url_exists($url) {
 
             <div class="row">
               <div class="col-sm-6">
-                <a href="https://twitter.com/CamJN">Twitter</a> <small class="text-muted">|</small> <a href="mailto:admin@silversshadows.com">Email</a> <small class="text-muted">|</small> <a href="https://github.com/CamJN/">GitHub</a>
+                <?php foreach($contacts as $i=>$contact): ?>
+                  <a href="<?php echo $contact['link']; ?>"><?php echo $contact['title']; ?></a>
+                  <?php if($i < count($contacts)-1): ?>
+                     <small class="text-muted">|</small>
+                  <?php endif; ?>
+                <?php endforeach; ?>
               </div>
             </div>
 
@@ -159,7 +149,7 @@ function url_exists($url) {
               </div>
               <div class="col-sm-6">
                 <p>
-                  <a href="#" class="pull-right">© Camden Narzt, <?php echo intval(date('Y'));?></a>
+                  <a href="#" class="pull-right">© <?php echo $name; ?>, <?php echo intval(date('Y'));?></a>
                 </p>
               </div>
             </div>
