@@ -2,94 +2,92 @@
 require('dota.php');
 $file= "/etc/hosts";
 if (file_exists($file)) {
-$contents = file($file);
-$filtered = array_filter($contents,function($e){ return strpos($e,'.dev') !== FALSE; });
-$domains = explode(' ',array_pop($filtered));
-array_walk($domains,function(&$d){$d = htmlspecialchars(trim($d));});
-$domains = array_filter($domains,function($e){ return strpos($e,'.dev') !== FALSE; });
+  $domains = explode(' ',array_pop(array_filter(file($file),function($e){ return strpos($e,'.dev') !== FALSE; })));
+  array_walk($domains,function(&$d){$d = htmlspecialchars(trim($d));});
+  $domains = array_filter($domains,function($e){ return strpos($e,'.dev') !== FALSE; });
 }else{
-$domains = [];
+  $domains = [];
 }
 function title($d){
-return explode('.',$d)[0];
+  return explode('.',$d)[0];
 }
 function elapsed($d){
-return distance_of_time_in_words(filemtime('/Users/camdennarzt/Sites/'.title($d)."/."), null, true).' ago';
+  return distance_of_time_in_words(filemtime('/Users/camdennarzt/Sites/'.title($d)."/."), null, true).' ago';
 }
 function url_exists($url) {
-return false;//todo make this not suck
-foreach(['https','http'] as $protocol){
-foreach(['www.',null] as $subdomain){
-foreach(['.com','.ca','.me'] as $tld){
-$urlH = str_replace('.dev',$tld,$url);
-if(checkdnsrr($urlH)){
-echo $urlH;
-$urlF = $protocol.'://'.$subdomain.$urlH;
-if ($fp = curl_init($urlF)){
-$headers = @get_headers($urlF);
-if(strpos($headers[0],'200')){
-curl_close($fp);
-return true;
-}
-}
-curl_close($fp);
-}
-}
-}
-}
-return false;
+  return false;//todo make this not suck
+  foreach(['https','http'] as $protocol){
+    foreach(['www.',null] as $subdomain){
+      foreach(['.com','.ca','.me'] as $tld){
+        $urlH = str_replace('.dev',$tld,$url);
+        if(checkdnsrr($urlH)){
+          echo $urlH;
+          $urlF = $protocol.'://'.$subdomain.$urlH;
+          if ($fp = curl_init($urlF)){
+            $headers = @get_headers($urlF);
+            if(strpos($headers[0],'200')){
+              curl_close($fp);
+              return true;
+            }
+          }
+          curl_close($fp);
+        }
+      }
+    }
+  }
+  return false;
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <title><?php echo gethostname(); ?></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!--[if lt IE 9]>
-    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <link href="css/styles.css" rel="stylesheet">
-  </head>
-  <body>
-    <div class="wrapper">
-      <div class="box">
-        <div class="row">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title><?php echo gethostname(); ?></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+  <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+  <div class="wrapper">
+    <div class="box">
+      <div class="row">
 
-          <!-- sidebar -->
-          <div class="column col-sm-3" id="sidebar">
-            <a class="logo" href="#">CJN</a>
-            <ul class="nav">
-              <?php foreach($domains as $domain): ?>
+        <!-- sidebar -->
+        <div class="column col-sm-3" id="sidebar">
+          <a class="logo" href="#">CJN</a>
+          <ul class="nav">
+            <?php foreach($domains as $domain): ?>
               <li>
                 <a href="#<?php echo title($domain);?>"><?php echo $domain; ?></a>
               </li>
-              <?php endforeach; ?>
-            </ul>
-            <ul class="nav hidden-xs" id="sidebar-footer">
-              <li>
-                Made with <i class="glyphicon glyphicon-heart-empty"></i> by Camden Narzt
-              </li>
-            </ul>
-          </div>
-          <!-- /sidebar -->
+            <?php endforeach; ?>
+          </ul>
+          <ul class="nav hidden-xs" id="sidebar-footer">
+            <li>
+              Made with <i class="glyphicon glyphicon-heart-empty"></i> by Camden Narzt
+            </li>
+          </ul>
+        </div>
+        <!-- /sidebar -->
 
-          <!-- main -->
-          <div class="column col-sm-9" id="main">
-            <div class="padding">
-              <div class="full col-sm-9">
+        <!-- main -->
+        <div class="column col-sm-9" id="main">
+          <div class="padding">
+            <div class="full col-sm-9">
 
 
-                <div class="col-sm-12" id="stories">
-                  <div class="page-header text-muted divider">
-                    Under Construction
-                  </div>
+              <div class="col-sm-12" id="stories">
+                <div class="page-header text-muted divider">
+                  Under Construction
                 </div>
+              </div>
 
 
-                <?php foreach($domains as $domain): ?>
+              <?php foreach($domains as $domain): ?>
                 <div class="row" id="<?php echo title($domain); ?>">
                   <div class="col-sm-10">
                     <h3><?php echo title($domain); ?></h3>
@@ -105,76 +103,76 @@ return false;
                 <div class="row divider">
                   <div class="col-sm-12"><hr></div>
                 </div>
-                <?php endforeach; ?>
+              <?php endforeach; ?>
 
-                <div class="col-sm-12">
-                  <div class="page-header text-muted divider">
-                    Up Now
-                  </div>
+              <div class="col-sm-12">
+                <div class="page-header text-muted divider">
+                  Up Now
                 </div>
+              </div>
 
-                <div class="row">
-                  <div class="col-sm-4 text-center">
-                    <h4>Metabolistics Inc.</h4>
-                    <a href="https://www.metabolistics.com"><img src="https://metabolistics.dev/metabolistics.dev.png" class="img-respsonsive img-circle"></a>
-                  </div>
-                  <div class="col-sm-4 text-center">
-                    <h4>King Of Strain</h4>
-                    <a href="http://kingofstrain.com"><img src="http://kingofstrain.dev/kingofstrain.dev.png" class="img-respsonsive img-circle"></a>
-                  </div>
-                  <div class="col-sm-4 text-center">
-                    <h4>MoteScan for WiTAP™</h4>
-                    <a href="http://mote.scanimetrics.com"><img src="http://mote.scanimetrics.dev/mote.scanimetrics.dev.png" class="img-respsonsive img-circle"></a>
-                  </div>
-                  <?php
-                  foreach($domains as $domain):
+              <div class="row">
+                <div class="col-sm-4 text-center">
+                  <h4>Metabolistics Inc.</h4>
+                  <a href="https://www.metabolistics.com"><img src="https://metabolistics.dev/metabolistics.dev.png" class="img-respsonsive img-circle"></a>
+                </div>
+                <div class="col-sm-4 text-center">
+                  <h4>King Of Strain</h4>
+                  <a href="http://kingofstrain.com"><img src="http://kingofstrain.dev/kingofstrain.dev.png" class="img-respsonsive img-circle"></a>
+                </div>
+                <div class="col-sm-4 text-center">
+                  <h4>MoteScan for WiTAP™</h4>
+                  <a href="http://mote.scanimetrics.com"><img src="http://mote.scanimetrics.dev/mote.scanimetrics.dev.png" class="img-respsonsive img-circle"></a>
+                </div>
+                <?php
+                foreach($domains as $domain):
                   if(false !== $url = url_exists($domain)): ?>
                   <div class="col-sm-4 text-center">
                     <h4><?php echo title($domain); ?></h4>
                     <a href="<?php echo $url; ?>"><img src="<?php echo $url; ?>/favicon.ico" class="img-respsonsive img-circle"></a>
                   </div>
-                  <?php endif;
-                  endforeach;
-                  ?>
-                </div>
+                <?php endif;
+              endforeach;
+              ?>
+            </div>
 
 
-                <div class="col-sm-12">
-                  <div class="page-header text-muted divider">
-                    Connect with Me
-                  </div>
-                </div>
+            <div class="col-sm-12">
+              <div class="page-header text-muted divider">
+                Connect with Me
+              </div>
+            </div>
 
-                <div class="row">
-                  <div class="col-sm-6">
-                    <a href="https://twitter.com/CamJN">Twitter</a> <small class="text-muted">|</small> <a href="mailto:admin@silversshadows.com">Email</a> <small class="text-muted">|</small> <a href="https://github.com/CamJN/">GitHub</a>
-                  </div>
-                </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <a href="https://twitter.com/CamJN">Twitter</a> <small class="text-muted">|</small> <a href="mailto:admin@silversshadows.com">Email</a> <small class="text-muted">|</small> <a href="https://github.com/CamJN/">GitHub</a>
+              </div>
+            </div>
 
-                <hr>
+            <hr>
 
-                <div class="row" id="footer">
-                  <div class="col-sm-6">
+            <div class="row" id="footer">
+              <div class="col-sm-6">
 
-                  </div>
-                  <div class="col-sm-6">
-                    <p>
-                      <a href="#" class="pull-right">© Camden Narzt, <?php echo intval(date('Y'));?></a>
-                    </p>
-                  </div>
-                </div>
+              </div>
+              <div class="col-sm-6">
+                <p>
+                  <a href="#" class="pull-right">© Camden Narzt, <?php echo intval(date('Y'));?></a>
+                </p>
+              </div>
+            </div>
 
 
-              </div><!-- /col-9 -->
-            </div><!-- /padding -->
-          </div>
-          <!-- /main -->
-
-        </div>
+          </div><!-- /col-9 -->
+        </div><!-- /padding -->
       </div>
+      <!-- /main -->
+
     </div>
-    <!-- script references -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-  </body>
+  </div>
+</div>
+<!-- script references -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+</body>
 </html>
