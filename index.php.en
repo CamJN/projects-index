@@ -5,7 +5,8 @@ require('dota.php');
 require('config.php');
 
 if (file_exists($hosts_file)) {
-  $domains = explode(' ',array_pop(array_filter(file($hosts_file),function($e)use($dev_tld){ return strpos($e,$dev_tld) !== FALSE; })));
+  $filtered = array_filter(file($hosts_file),function($e)use($dev_tld){ return strpos($e,$dev_tld) !== FALSE; });
+  $domains = explode(' ',array_pop($filtered));
   array_walk($domains,function(&$d){$d = htmlspecialchars(trim($d));});
   $domains = array_filter($domains,function($e)use($dev_tld){ return strpos($e,$dev_tld) !== FALSE; });
 }else{
@@ -29,128 +30,128 @@ function gh_url($contacts){
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <meta charset="utf-8">
-  <title><?php echo gethostname(); ?></title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <!--[if lt IE 9]>
-  <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-  <link href="css/styles.css" rel="stylesheet">
-</head>
-<body>
-  <div class="wrapper">
-    <div class="box">
-      <div class="row">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title><?php echo gethostname(); ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="css/styles.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="box">
+        <div class="row">
 
-        <!-- sidebar -->
-        <div class="column col-sm-3" id="sidebar">
-          <a class="logo" href="#"><?php echo $title; ?></a>
-          <ul class="nav">
-            <?php foreach($domains as $domain): ?>
-              <li>
-                <a href="#<?php echo title($domain);?>"><?php echo $domain; ?></a>
-              </li>
-            <?php endforeach; ?>
-          </ul>
-          <ul class="nav hidden-xs" id="sidebar-footer">
-            <li>
-              <a href="<?php echo gh_url($contacts); ?>">Made with <i class="glyphicon glyphicon-heart-empty"></i> by <?php echo $name; ?></a>
-            </li>
-          </ul>
-        </div>
-        <!-- /sidebar -->
-
-        <!-- main -->
-        <div class="column col-sm-9" id="main">
-          <div class="padding">
-            <div class="full col-sm-9">
-
-
-              <div class="col-sm-12" id="stories">
-                <div class="page-header text-muted divider">
-                  Under Construction
-                </div>
-              </div>
-
-
+          <!-- sidebar -->
+          <div class="column col-sm-3" id="sidebar">
+            <a class="logo" href="#"><?php echo $title; ?></a>
+            <ul class="nav">
               <?php foreach($domains as $domain): ?>
-                <div class="row" id="<?php echo title($domain); ?>">
-                  <div class="col-sm-10">
-                    <h3><?php echo title($domain); ?></h3>
-                    <h4><span class="label label-default"><?php echo $domain; ?></span></h4><h4>
-                      <small class="text-muted"><?php echo elapsed($domain,$sites_dir); ?> • <a href="//<?php echo $domain; ?>" class="text-muted">Go</a></small>
-                    </h4>
-                  </div>
-                  <div class="col-sm-2">
-                    <a href="//<?php echo $domain; ?>" class="pull-right"><img src="<?php echo '//'.$domain.'/'.$domain.'.png'; ?>" class="img-circle"></a>
-                  </div>
-                </div>
-
-                <div class="row divider">
-                  <div class="col-sm-12"><hr></div>
-                </div>
+                <li>
+                  <a href="#<?php echo title($domain);?>"><?php echo $domain; ?></a>
+                </li>
               <?php endforeach; ?>
+            </ul>
+            <ul class="nav hidden-xs" id="sidebar-footer">
+              <li>
+                <a href="<?php echo gh_url($contacts); ?>">Made with <i class="glyphicon glyphicon-heart-empty"></i> by <?php echo $name; ?></a>
+              </li>
+            </ul>
+          </div>
+          <!-- /sidebar -->
 
-              <div class="col-sm-12">
-                <div class="page-header text-muted divider">
-                  Up Now
+          <!-- main -->
+          <div class="column col-sm-9" id="main">
+            <div class="padding">
+              <div class="full col-sm-9">
+
+
+                <div class="col-sm-12" id="stories">
+                  <div class="page-header text-muted divider">
+                    Under Construction
+                  </div>
                 </div>
-              </div>
 
-              <div class="row">
-                <?php foreach($prod_domains as $domain): ?>
-                  <div class="col-sm-4 text-center">
-                    <h4><?php echo $domain['title']; ?></h4>
-                    <a href="<?php echo $domain['link']; ?>"><img src="<?php echo $domain['img']; ?>" class="img-respsonsive img-circle"></a>
+
+                <?php foreach($domains as $domain): ?>
+                  <div class="row" id="<?php echo title($domain); ?>">
+                    <div class="col-sm-10">
+                      <h3><?php echo title($domain); ?></h3>
+                      <h4><span class="label label-default"><?php echo $domain; ?></span></h4><h4>
+                        <small class="text-muted"><?php echo elapsed($domain,$sites_dir); ?> • <a href="//<?php echo $domain; ?>" class="text-muted">Go</a></small>
+                      </h4>
+                    </div>
+                    <div class="col-sm-2">
+                      <a href="//<?php echo $domain; ?>" class="pull-right"><img src="<?php echo '//'.$domain.'/'.$domain.'.png'; ?>" class="img-circle"></a>
+                    </div>
+                  </div>
+
+                  <div class="row divider">
+                    <div class="col-sm-12"><hr></div>
                   </div>
                 <?php endforeach; ?>
-            </div>
+
+                <div class="col-sm-12">
+                  <div class="page-header text-muted divider">
+                    Up Now
+                  </div>
+                </div>
+
+                <div class="row">
+                  <?php foreach($prod_domains as $domain): ?>
+                    <div class="col-sm-4 text-center">
+                      <h4><?php echo $domain['title']; ?></h4>
+                      <a href="<?php echo $domain['link']; ?>"><img src="<?php echo $domain['img']; ?>" class="img-respsonsive img-circle"></a>
+                    </div>
+                  <?php endforeach; ?>
+                </div>
 
 
-            <div class="col-sm-12">
-              <div class="page-header text-muted divider">
-                Connect with Me
-              </div>
-            </div>
+                <div class="col-sm-12">
+                  <div class="page-header text-muted divider">
+                    Connect with Me
+                  </div>
+                </div>
 
-            <div class="row">
-              <div class="col-sm-6">
-                <?php foreach($contacts as $i=>$contact): ?>
-                  <a href="<?php echo $contact['link']; ?>"><?php echo $contact['title']; ?></a>
-                  <?php if($i < count($contacts)-1): ?>
-                     <small class="text-muted">|</small>
-                  <?php endif; ?>
-                <?php endforeach; ?>
-              </div>
-            </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <?php foreach($contacts as $i=>$contact): ?>
+                      <a href="<?php echo $contact['link']; ?>"><?php echo $contact['title']; ?></a>
+                      <?php if($i < count($contacts)-1): ?>
+                        <small class="text-muted">|</small>
+                      <?php endif; ?>
+                    <?php endforeach; ?>
+                  </div>
+                </div>
 
-            <hr>
+                <hr>
 
-            <div class="row" id="footer">
-              <div class="col-sm-6">
+                <div class="row" id="footer">
+                  <div class="col-sm-6">
 
-              </div>
-              <div class="col-sm-6">
-                <p>
-                  <a href="#" class="pull-right">© <?php echo $name; ?>, <?php echo intval(date('Y'));?></a>
-                </p>
-              </div>
-            </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <p>
+                      <a href="#" class="pull-right">© <?php echo $name; ?>, <?php echo intval(date('Y'));?></a>
+                    </p>
+                  </div>
+                </div>
 
 
-          </div><!-- /col-9 -->
-        </div><!-- /padding -->
+              </div><!-- /col-9 -->
+            </div><!-- /padding -->
+          </div>
+          <!-- /main -->
+
+        </div>
       </div>
-      <!-- /main -->
-
     </div>
-  </div>
-</div>
-<!-- script references -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-</body>
+    <!-- script references -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
 </html>
