@@ -19,6 +19,10 @@ $prod_domains = array(
   array('title' => "MoteScan for WiTAP™",
         'link'=>"http://mote.scanimetrics.com",
         'img'=>"http://mote.scanimetrics.dev/mote.scanimetrics.dev.png"
+  ),
+  array('title' => "Ares Edmonton Membership",
+        'link'=>"http://membership.aresedmonton.com",
+        'img'=>"http://membership.aresedmonton.dev/membership.aresedmonton.dev.png"
   )
 );
 
