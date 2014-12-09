@@ -2,7 +2,9 @@
 defined( 'runtime' ) or die;
 
 function title($d){
-  return explode('.',$d)[0];
+    $parts = explode('.',$d);
+    array_pop($parts);
+    return implode('.',$parts);
 }
 
 function elapsed($d,$sites_dir){
