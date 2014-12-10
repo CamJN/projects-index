@@ -8,17 +8,17 @@ function title($d){
 }
 
 function elapsed($d,$sites_dir){
-  return distance_of_time_in_words(filemtime($sites_dir.title($d)."/."), null, true).' ago';
+    return distance_of_time_in_words(filemtime($sites_dir.title($d)."/."), null, true).' ago';
 }
 
 function gh_url($contacts){
-  $filtered = array_filter($contacts,function($c){return $c['title'] === 'GitHub'; });
-  if(count($filtered) > 0){
-    $url = array_pop($filtered)['link'];
-  }else{
-    $url = 'https://github.com/CamJN/';
-  }
-  return $url.'projects-index';
+    $filtered = array_filter($contacts,function($c){return $c['title'] === 'GitHub'; });
+    if(count($filtered) > 0){
+        $url = array_pop($filtered)['link'];
+    }else{
+        $url = 'https://github.com/CamJN/';
+    }
+    return $url.'projects-index';
 }
 
 function domains($hosts_file,$dev_tld){
