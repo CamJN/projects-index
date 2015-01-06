@@ -23,6 +23,10 @@ $prod_domains = array(
   array('title' => "Ares Edmonton Membership",
         'link'=>"http://membership.aresedmonton.com",
         'img'=>"http://membership.aresedmonton.dev/membership.aresedmonton.dev.png"
+  ),
+  array('title' => "Silver's Shadows Splash Page",
+        'link'=>"http://splash.silversshadows.com",
+        'img'=>"http://splash.silversshadows.dev/splash.silversshadows.dev.png"
   )
 );
 
