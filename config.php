@@ -20,9 +20,9 @@ $prod_domains = array(
           'link'=>"http://mote.scanimetrics.com",
           'img'=>"http://mote.scanimetrics.dev/mote.scanimetrics.dev.png"
     ),
-    array('title' => "Ares Edmonton Membership",
-          'link'=>"http://membership.aresedmonton.com",
-          'img'=>"http://membership.aresedmonton.dev/membership.aresedmonton.dev.png"
+    array('title' => "NMR Data Access Portal",
+          'link'=>"https://nmr.metabolistics.com",
+          'img'=>"http://nmr.metabolistics.dev/nmr.metabolistics.dev.png",
     ),
     array('title' => "Silver's Shadows Splash Page",
           'link'=>"http://splash.silversshadows.com",
@@ -31,6 +31,10 @@ $prod_domains = array(
     array('title' => "Are We Small Yet",
           'link'=>"http://camjn.github.io/arewesmallyet",
           'img'=>"http://arewesmallyet.dev/arewesmallyet.dev.png"
+    ),
+    array('title' => "Metabolistics Crowdfunding",
+          'link'=>"http://crowdfunding.metabolistics.com",
+          'img'=>"http://crowdfunding.metabolistics.dev/crowdfunding.metabolistics.dev.png"
     )
 );
 
