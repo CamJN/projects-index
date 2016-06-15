@@ -1,8 +1,21 @@
 <?php
 defined( 'runtime' ) or die;
 
-$hosts_file= "/etc/hosts";
-$dev_tld = '.dev';
+$domains = array("rust.dev",
+"scanimetrics.dev",
+"grafana.scanimetrics.dev",
+"metabolistics.dev",
+"silversshadows.dev",
+"mote.scanimetrics.dev",
+"nmr.metabolistics.dev",
+"m2.dev",
+"kingofstrain.dev",
+"rattanlaw.dev",
+"splash.silversshadows.dev",
+"arewesmallyet.dev",
+"barcoding.dev",
+"mailcatcher.dev");
+
 $sites_dir = '/Users/camdennarzt/Sites/';
 $title = 'CJN';
 $name = 'Camden Narzt';
@@ -13,28 +26,36 @@ $prod_domains = array(
           'img'=>"https://metabolistics.dev/metabolistics.dev.png"
     ),
     array('title' => "King Of Strain",
-          'link'=>"http://kingofstrain.com",
-          'img'=>"http://kingofstrain.dev/kingofstrain.dev.png"
+          'link'=>"https://kingofstrain.com",
+          'img'=>"https://kingofstrain.dev/kingofstrain.dev.png"
     ),
     array('title' => "MoteScan for WiTAP™",
-          'link'=>"http://mote.scanimetrics.com",
-          'img'=>"http://mote.scanimetrics.dev/mote.scanimetrics.dev.png"
+          'link'=>"https://mote.scanimetrics.com",
+          'img'=>"https://mote.scanimetrics.dev/mote.scanimetrics.dev.png"
     ),
     array('title' => "NMR Data Access Portal",
           'link'=>"https://nmr.metabolistics.com",
-          'img'=>"http://nmr.metabolistics.dev/nmr.metabolistics.dev.png",
+          'img'=>"https://nmr.metabolistics.dev/nmr.metabolistics.dev.png",
     ),
     array('title' => "Silver's Shadows Splash Page",
           'link'=>"http://splash.silversshadows.com",
-          'img'=>"http://splash.silversshadows.dev/splash.silversshadows.dev.png"
+          'img'=>"https://splash.silversshadows.dev/splash.silversshadows.dev.png"
     ),
     array('title' => "Are We Small Yet",
           'link'=>"http://camjn.github.io/arewesmallyet",
-          'img'=>"http://arewesmallyet.dev/arewesmallyet.dev.png"
+          'img'=>"https://arewesmallyet.dev/arewesmallyet.dev.png"
     ),
-    array('title' => "Metabolistics Crowdfunding",
-          'link'=>"http://crowdfunding.metabolistics.com",
-          'img'=>"http://crowdfunding.metabolistics.dev/crowdfunding.metabolistics.dev.png"
+    array('title' => "Rust Documentation",
+          'link'=>"https://doc.rust-lang.org/",
+          'img'=>"https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png"
+    ),
+    array('title' => "Scanimetrics",
+          'link'=>"https://scanimetrics.com",
+          'img'=>"https://mote.scanimetrics.dev/mote.scanimetrics.dev.png"
+    ),
+    array('title' => "Motescan",
+          'link'=>"https://motescan.scanimetrics.com",
+          'img'=>"https://mote.scanimetrics.dev/mote.scanimetrics.dev.png"
     )
 );
 

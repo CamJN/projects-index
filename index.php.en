@@ -4,7 +4,7 @@ define('runtime', 1);
 require('dota.php');
 require('config.php');
 require('utilities.php');
-$domains = domains($hosts_file,$dev_tld);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
